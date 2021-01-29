@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locadora de carros</title>
+  <style>
+    img {
+      max-width: 200px;
+    }
+    table {
+      width: 800px;
+    }
+    label {
+      display:block;
+    }
+
+    table, th, td {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+  <h1 data-js="nome">Nome</h1>
+  <h2 data-js="telefone">Telefone</h2>
+
+  <form action="">
+    <div>
+      <label for="imagem">Imagem</label>
+      <input data-js="imagem" type="text" id="imagem">
+    </div>
+    <div>
+      <label for="marca">Marca/Modelo</label>
+      <input data-js="marca" type="text" id="marca">
+      <label for="ano">Ano</label>
+      <input data-js="ano" type="text" id="ano">
+    </div>
+    <div>
+      <label for="placa">Placa</label>
+      <input data-js="placa" type="text" id="placa">
+      <label for="cor">Cor</label>
+      <input data-js="cor" type="text" id="cor">
+    </div>
+    <button data-js="button">Cadastrar</button>
+  </form>
+
+  <table>
+    <thead>
+      <th>Imagem</th>
+      <th>Marca</th>
+      <th>Ano</th>
+      <th>Placa</th>
+      <th>Cor</th>
+    </thead>
+    <tbody data-js="tbody">
+    </tbody>
+  </table>
+  <script src="catalogo.js"></script>
+</body>
+</html>
