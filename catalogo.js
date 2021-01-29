@@ -40,12 +40,13 @@
 
     var $nome = document.querySelector('[data-js="nome"]');
     var $telefone = document.querySelector('[data-js="telefone"]');
-    var $button = document.querySelector('[data-js="button"]');
+    var $buttonCreate = document.querySelector('[data-js="button"]');
     var $imagem = document.querySelector('[data-js="imagem"]');
     var $marca = document.querySelector('[data-js="marca"]');
     var $ano = document.querySelector('[data-js="ano"]');
     var $placa = document.querySelector('[data-js="placa"]');
     var $cor = document.querySelector('[data-js="cor"]');
+    var $tbody = document.querySelector('[data-js="tbody"]');
 
     var arrForm = [$marca, $ano, $placa, $cor];
 
@@ -81,9 +82,8 @@
       $telefone.innerHTML = infoEmpresa.phone;
     }
 
-    $button.addEventListener('click', function(e) {
+    $buttonCreate.addEventListener('click', function(e) {
       e.preventDefault();
-      var $tbody = document.querySelector('[data-js="tbody"]');
       $tbody.appendChild(createFragment());
     })
 
@@ -99,6 +99,7 @@
         $tr.appendChild(createTd(item));
         item.value = '';
       })
+      $tr.appendChild(createButtonRemove());
       return $tr;
     }
 
@@ -113,6 +114,20 @@
       $img.src = $imagem.value;
       $imagem.value = '';
       return createTd($img);
+    }
+
+    function createButtonRemove() {
+      var $buttonRemove = document.createElement('button');
+      var $contentButtonRemove = document.createTextNode('Remover');
+      $buttonRemove.appendChild($contentButtonRemove);
+      removeRow($buttonRemove);
+      return createTd($buttonRemove);
+    }
+
+    function removeRow($buttonRemove) {
+      $buttonRemove.addEventListener('click', function() {
+        $tbody.removeChild($buttonRemove.parentElement.parentElement);
+      })
     }
 
     return {
