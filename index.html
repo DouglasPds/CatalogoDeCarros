@@ -16,6 +16,7 @@
     }
 
     table, th, td {
+      text-align: center;
       border: 2px solid black;
     }
   </style>
@@ -27,19 +28,19 @@
   <form action="">
     <div>
       <label for="imagem">Imagem</label>
-      <input data-js="imagem" type="text" id="imagem">
+      <input data-js="imagem" type="text" id="imagem" required>
     </div>
     <div>
       <label for="marca">Marca/Modelo</label>
-      <input data-js="marca" type="text" id="marca">
+      <input data-js="marca" type="text" id="marca" required>
       <label for="ano">Ano</label>
-      <input data-js="ano" type="text" id="ano">
+      <input data-js="ano" type="text" id="ano" required>
     </div>
     <div>
       <label for="placa">Placa</label>
-      <input data-js="placa" type="text" id="placa">
+      <input data-js="placa" type="text" id="placa" required>
       <label for="cor">Cor</label>
-      <input data-js="cor" type="text" id="cor">
+      <input data-js="cor" type="text" id="cor" required>
     </div>
     <button data-js="button">Cadastrar</button>
   </form>

@@ -1,41 +1,6 @@
 (function() {
   'use strict';
 
-  /*
-  Vamos estruturar um pequeno app utilizando módulos.
-  Nosso APP vai ser um cadastro de carros. Vamos fazê-lo por partes.
-  A primeira etapa vai ser o cadastro de veículos, de deverá funcionar da
-  seguinte forma:
-  - No início do arquivo, deverá ter as informações da sua empresa - nome e
-  telefone (já vamos ver como isso vai ser feito)
-  - Ao abrir a tela, ainda não teremos carros cadastrados. Então deverá ter
-  um formulário para cadastro do carro, com os seguintes campos:
-    - Imagem do carro (deverá aceitar uma URL)
-    - Marca / Modelo
-    - Ano
-    - Placa
-    - Cor
-    - e um botão "Cadastrar"
-
-  Logo abaixo do formulário, deverá ter uma tabela que irá mostrar todos os
-  carros cadastrados. Ao clicar no botão de cadastrar, o novo carro deverá
-  aparecer no final da tabela.
-
-  Agora você precisa dar um nome para o seu app. Imagine que ele seja uma
-  empresa que vende carros. Esse nosso app será só um catálogo, por enquanto.
-  Dê um nome para a empresa e um telefone fictício, preechendo essas informações
-  no arquivo company.json que já está criado.
-
-  Essas informações devem ser adicionadas no HTML via Ajax.
-
-  Parte técnica:
-  Separe o nosso módulo de DOM criado nas últimas aulas em
-  um arquivo DOM.js.
-
-  E aqui nesse arquivo, faça a lógica para cadastrar os carros, em um módulo
-  que será nomeado de "app".
-  */
-
   function app() {
 
     var $nome = document.querySelector('[data-js="nome"]');
@@ -52,6 +17,46 @@
 
     function init() {
       startAjax();
+      getValues();
+    }
+
+    function getValues() {
+      var get = new XMLHttpRequest();
+      get.open('GET', 'http://localhost:3000/car/');
+      get.send();
+  
+      get.addEventListener('readystatechange', function() {
+        if(get.readyState === 4){
+          var responseJson = JSON.parse(get.responseText);
+          for(var cont = 0; cont < responseJson.length; cont++) {
+            var $tr = document.createElement('tr');
+  
+            var $imagem = document.createElement('img');
+            var $tdImagem = document.createElement('td');
+            var $tdMarca = document.createElement('td');
+            var $tdAno = document.createElement('td');
+            var $tdPlaca = document.createElement('td');
+            var $tdCor = document.createElement('td');
+  
+
+            $imagem.src = responseJson[cont].imagem;
+            $tdImagem.appendChild($imagem);
+            $tdMarca.textContent = responseJson[cont].marca;
+            $tdAno.textContent = responseJson[cont].ano;
+            $tdPlaca.textContent = responseJson[cont].placa;
+            $tdCor.textContent = responseJson[cont].cor;
+  
+            $tr.appendChild($tdImagem);
+            $tr.appendChild($tdMarca);
+            $tr.appendChild($tdAno);
+            $tr.appendChild($tdPlaca);
+            $tr.appendChild($tdCor);
+            $tr.appendChild(createButtonRemove());
+  
+            $tbody.appendChild($tr);
+          }
+        }      
+      });
     }
 
     function startAjax() {
@@ -82,9 +87,14 @@
       $telefone.innerHTML = infoEmpresa.phone;
     }
 
-    $buttonCreate.addEventListener('click', function(e) {
-      e.preventDefault();
-      $tbody.appendChild(createFragment());
+    $buttonCreate.addEventListener('click', function() {
+      var ajax = new XMLHttpRequest();
+      ajax.open('POST', 'http://localhost:3000/car');
+      ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      ajax.send(`imagem=${$imagem.value}&marca=${$marca.value}&ano=${$ano.value}&placa=${$placa.value}&cor=${$cor.value}`);
+
+      // e.preventDefault();
+      // $tbody.appendChild(createFragment());
     })
 
     function createFragment() {
@@ -121,12 +131,22 @@
       var $contentButtonRemove = document.createTextNode('Remover');
       $buttonRemove.appendChild($contentButtonRemove);
       removeRow($buttonRemove);
+      deleteCar($buttonRemove);
       return createTd($buttonRemove);
     }
 
     function removeRow($buttonRemove) {
       $buttonRemove.addEventListener('click', function() {
         $tbody.removeChild($buttonRemove.parentElement.parentElement);
+      })
+    }
+
+    function deleteCar($buttonRemove) {
+      $buttonRemove.addEventListener('click', function() {
+        var placa = $buttonRemove.parentElement.previousElementSibling.previousElementSibling.textContent;
+        var ajaxDel = new XMLHttpRequest();
+        ajaxDel.open('DELETE', 'http://localhost:3000/car/' + placa);
+        ajaxDel.send();
       })
     }
 
