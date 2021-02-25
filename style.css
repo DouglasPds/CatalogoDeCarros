@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #d9d9d9;
+  color: #0d0d0d;
+}
+
+img {
+  max-width: 200px;
+}
+
+header {
+  display: flex;
+  height: 6rem;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+}
+
+.container {
+  margin-top: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 1.2rem;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin-bottom: 0.3rem;
+}
+
+input {
+  width: 20rem;
+  margin-bottom: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 0.2rem;
+  border: 1px solid #09087f;
+  outline: none;
+  font-size: 1rem;
+  background: #262626;
+  color: #f2f2f2;
+}
+
+section button {
+  align-self: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 5px 10px;
+  width: 80%;
+  outline: none;
+  border: 1px solid #09087f;
+  border-radius: 0.3rem;
+  font-size: 1.2rem;
+}
+
+table {
+  width: 50rem;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  text-align: center;
+  border: 4px solid #262626;
+  padding: 5px 10px;
+}
+
+th {
+  height: 40px;
+  font-size: 1.4rem;
+}
+
+td {
+  font-size: 1.2rem;
+}

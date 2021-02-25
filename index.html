@@ -4,59 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Locadora de carros</title>
-  <style>
-    img {
-      max-width: 200px;
-    }
-    table {
-      width: 800px;
-    }
-    label {
-      display:block;
-    }
-
-    table, th, td {
-      text-align: center;
-      border: 2px solid black;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 data-js="nome">Nome</h1>
-  <h2 data-js="telefone">Telefone</h2>
+  <header>
+    <h1 data-js="nome">Nome</h1>
+    <h2 data-js="telefone">Telefone</h2>
+  </header>
 
-  <form action="">
-    <div>
-      <label for="imagem">Imagem</label>
-      <input data-js="imagem" type="text" id="imagem" required>
-    </div>
-    <div>
-      <label for="marca">Marca/Modelo</label>
-      <input data-js="marca" type="text" id="marca" required>
-      <label for="ano">Ano</label>
-      <input data-js="ano" type="text" id="ano" required>
-    </div>
-    <div>
-      <label for="placa">Placa</label>
-      <input data-js="placa" type="text" id="placa" required>
-      <label for="cor">Cor</label>
-      <input data-js="cor" type="text" id="cor" required>
-    </div>
-    <button data-js="button">Cadastrar</button>
-  </form>
+  <div class="container">
 
-  <table>
-    <thead>
-      <th>Imagem</th>
-      <th>Marca</th>
-      <th>Ano</th>
-      <th>Placa</th>
-      <th>Cor</th>
-      <th>Remover</th>
-    </thead>
-    <tbody data-js="tbody">
-    </tbody>
-  </table>
+    <section>
+      <form action="" class="form">
+        <label for="imagem">Imagem</label>
+        <input data-js="imagem" autocomplete="off" type="text" id="imagem" required>
+
+        <label for="marca">Marca/Modelo</label>
+        <input data-js="marca" autocomplete="off" type="text" id="marca" required>
+
+        <label for="ano">Ano</label>
+        <input data-js="ano" autocomplete="off" type="text" id="ano" required>
+
+        <label for="placa">Placa</label>
+        <input data-js="placa" autocomplete="off" type="text" id="placa" required>
+
+        <label for="cor">Cor</label>
+        <input data-js="cor" autocomplete="off" type="text" id="cor" required>
+        
+        <button data-js="button">Cadastrar</button>
+      </form>
+    </section>
+    
+    <section>
+      <table>
+        <thead>
+          <th>Imagem</th>
+          <th>Marca</th>
+          <th>Ano</th>
+          <th>Placa</th>
+          <th>Cor</th>
+          <th>Remover</th>
+        </thead>
+        <tbody data-js="tbody">
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+  
+
   <script src="catalogo.js"></script>
 </body>
 </html>
