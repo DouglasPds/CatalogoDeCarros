@@ -34,12 +34,12 @@ header {
 }
 
 .container {
-  margin-top: 5rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
   background: var(--azul-claro);
+  min-height: 630px;
 }
 
 form {
@@ -80,6 +80,14 @@ section button {
   font-size: 1.2rem;
   cursor: pointer;
   background: var(--branco);
+}
+
+section button:hover {
+  background: var(--azul-claro);
+}
+
+#buttonClear {
+  display: none;
 }
 
 table button {

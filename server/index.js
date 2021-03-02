@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const cars = [{
+  id: 1,
   imagem: 'https://quatrorodas.abril.com.br/wp-content/uploads/2019/03/vw-gol-bc3a1sico.jpg?quality=70&strip=info',
   marca: 'Gol',
   ano: '2021',
@@ -12,6 +13,7 @@ const cars = [{
   cor: 'Branco',
 },
 {
+  id: 2,
   imagem: 'https://quatrorodas.abril.com.br/wp-content/uploads/2018/05/gol_e_voyage_2019__9_-e1526935241764.jpg?quality=70&strip=info',
   marca: 'Voyage',
   ano: '2021',
@@ -22,21 +24,7 @@ const cars = [{
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get('/car', (req, res) => {
-  res.json(cars);
-});
-
-app.get('/car/:marca', (req, res) => {
-  const { marca } = req.params;
-
-  const hasCar = cars.some((car) => car.marca === marca);
-
-  if (hasCar) {
-    res.json(cars.filter((car) => car.marca === marca));
-  }
-});
-
-app.post('/car', (req) => {
+function validateFields(req, res, next) {
   const {
     imagem, marca, ano, placa, cor,
   } = req.body;
@@ -46,16 +34,47 @@ app.post('/car', (req) => {
   const hasValueEmpty = infoCarro.some((item) => item === '');
   if (hasValueEmpty) { return; }
 
+  next();
+}
+
+app.get('/car', (req, res) => {
+  res.json(cars);
+});
+
+app.post('/car', validateFields, (req) => {
+  const {
+    imagem, marca, ano, placa, cor,
+  } = req.body;
+  const id = Date.now();
+
   const hasCar = cars.some((car) => car.placa === placa);
   if (hasCar) { return; }
 
   cars.push({
+    id,
     imagem,
     marca,
     ano,
     placa,
     cor,
   });
+});
+
+app.put('/car/:id', validateFields, (req) => {
+  const { id } = req.params;
+  const {
+    imagem, marca, ano, placa, cor,
+  } = req.body;
+
+  const carId = cars.findIndex((car) => car.id === Number(id));
+  cars[carId] = {
+    id,
+    imagem,
+    marca,
+    ano,
+    placa,
+    cor,
+  };
 });
 
 app.delete('/car/:placa', (req) => {

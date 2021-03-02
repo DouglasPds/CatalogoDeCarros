@@ -11,6 +11,9 @@
     const $tbody = doc.querySelector('[data-js="tbody"]');
 
     const arrForm = ['marca', 'ano', 'placa', 'cor'];
+    let carValues = [];
+    let isUpdate = false;
+    let idCar;
 
     function init() {
       getNameAndPhone();
@@ -50,6 +53,7 @@
 
     function handleResponseToObject(ajax) {
       const responseJson = JSON.parse(ajax.responseText);
+      carValues = responseJson;
       return responseJson[0].name ? addNameAndPhone(responseJson) : addTable(responseJson);
     }
 
@@ -59,7 +63,12 @@
     }
 
     function addListenerToCreateButton() {
+      // eslint-disable-next-line consistent-return
       $buttonCreate.addEventListener('click', () => {
+        if (isUpdate) {
+          isUpdate = false;
+          return updateValueCar();
+        }
         const ajaxPost = new XMLHttpRequest();
         ajaxPost.open('POST', 'http://localhost:3000/car');
         ajaxPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -109,7 +118,55 @@
       const $buttonUpdate = doc.createElement('button');
       const $contentButtonUpdate = doc.createTextNode('Atualizar');
       $buttonUpdate.appendChild($contentButtonUpdate);
+      getCarValue($buttonUpdate);
       return $buttonUpdate;
+    }
+
+    function getCarValue($buttonUpdate) {
+      $buttonUpdate.addEventListener('click',
+        () => {
+          const placa = $buttonUpdate.parentElement.previousElementSibling
+            .previousElementSibling.textContent;
+          const carAtual = carValues.find((car) => car.placa === placa);
+          isUpdate = true;
+          clearInput();
+          idCar = carAtual.id;
+          updateValuesOnTheInput(carAtual);
+        });
+    }
+
+    function updateValuesOnTheInput(carAtual) {
+      const {
+        imagem, marca, ano, placa, cor,
+      } = carAtual;
+      $imagem.value = imagem;
+      $marca.value = marca;
+      $ano.value = ano;
+      $placa.value = placa;
+      $cor.value = cor;
+      $buttonCreate.innerHTML = 'Atualizar';
+    }
+
+    function clearInput() {
+      const $buttonClear = doc.querySelector('[data-js="buttonClear"]');
+      $buttonClear.removeAttribute('id');
+      $buttonClear.addEventListener('click', () => {
+        if (isUpdate) {
+          $imagem.value = '';
+          $marca.value = '';
+          $ano.value = '';
+          $placa.value = '';
+          $cor.value = '';
+        }
+      });
+      isUpdate = false;
+    }
+
+    function updateValueCar() {
+      const ajaxPut = new XMLHttpRequest();
+      ajaxPut.open('PUT', `http://localhost:3000/car/${idCar}`);
+      ajaxPut.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      ajaxPut.send(`imagem=${$imagem.value}&marca=${$marca.value}&ano=${$ano.value}&placa=${$placa.value}&cor=${$cor.value}`);
     }
 
     function removeRow($buttonRemove) {
