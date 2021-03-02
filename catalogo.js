@@ -76,7 +76,9 @@
       const $tr = doc.createElement('tr');
       $tr.appendChild(createImg(value.imagem));
       arrForm.map((item) => $tr.appendChild(createTd(item, value)));
-      $tr.appendChild(createButtonRemove());
+      const tdAction = createButtonRemove();
+      tdAction.appendChild(createButtonUpdate());
+      $tr.appendChild(tdAction);
       return $tr;
     }
 
@@ -101,6 +103,13 @@
       removeRow($buttonRemove);
       deleteCar($buttonRemove);
       return createTd($buttonRemove);
+    }
+
+    function createButtonUpdate() {
+      const $buttonUpdate = doc.createElement('button');
+      const $contentButtonUpdate = doc.createTextNode('Atualizar');
+      $buttonUpdate.appendChild($contentButtonUpdate);
+      return $buttonUpdate;
     }
 
     function removeRow($buttonRemove) {
